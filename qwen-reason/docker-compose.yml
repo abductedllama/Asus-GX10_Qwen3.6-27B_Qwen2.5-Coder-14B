@@ -1,0 +1,58 @@
+services:
+  vllm:
+    image: vllm/vllm-openai:v0.26.0  # Was: vllm/vllm-openai:latest
+    container_name: vllm
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      HF_TOKEN: ${HF_TOKEN}
+
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+      - ~/.cache/vllm:/root/.cache/vllm
+
+
+    command:
+      - sakamakismile/Huihui-Qwen3.6-35B-A3B-abliterated-NVFP4
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --tensor-parallel-size
+      - "1"
+      - --kv-cache-dtype
+      - fp8
+      - --attention-backend
+      - flashinfer
+      - --gpu-memory-utilization
+      - "0.55"
+      - --max-model-len
+      - "262144"
+      - --max-num-seqs
+      - "4"
+      - --max-num-batched-tokens
+      - "16384"
+      - --enable-chunked-prefill
+      - --async-scheduling
+      - --enable-prefix-caching
+      - --speculative-config
+      - '{"method":"mtp","num_speculative_tokens":3}'
+      - --load-format
+      - safetensors
+      - --reasoning-parser
+      - qwen3
+      - --tool-call-parser
+      - qwen3_xml
+      - --enable-auto-tool-choice
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    restart: unless-stopped
