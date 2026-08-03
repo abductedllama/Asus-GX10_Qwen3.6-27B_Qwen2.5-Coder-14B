@@ -27,7 +27,7 @@ services:
       - --attention-backend
       - flashinfer
       - --gpu-memory-utilization
-      - "0.55"
+      - "0.50"
       - --max-model-len
       - "262144"
       - --max-num-seqs
