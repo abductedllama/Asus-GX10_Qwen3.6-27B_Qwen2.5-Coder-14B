@@ -3,7 +3,7 @@ vLLM docker compose configs for Qwen Models on Asus GX10
 
 Running two models on **ASUS GX10** (ARM64) via Docker Compose.
 
-This may or may not be optimal, I was just trying to get 2 decently large(ish) models with large context running smoothly with any request.
+This may or may not be optimal. I was just trying to get two decently large models with a large context, running smoothly under any request.
 
 ## Models
 
