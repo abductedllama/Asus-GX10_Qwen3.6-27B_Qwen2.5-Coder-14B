@@ -46,5 +46,5 @@ Swap:           15Gi       1.2Mi        15Gi
 
 > **WIP** — initial setup, more to follow.
 
-20260804 - Removed docker compose files from README, docker compose files uploaded are current, dont want to update in 2 places, Updated memory for new settings.
+20260804 - Removed docker compose files from README, docker compose files uploaded are current, dont want to update in 2 places, Updated memory for new settings. <br>
 20260803 - Updated compose files for both containers. Reason: use slightly less resources lowered gpu-memory-utilzation, Code: increase --max-num-seqs to 4 for better concurrent requests on QwenCode model
