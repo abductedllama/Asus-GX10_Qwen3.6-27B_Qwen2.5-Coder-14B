@@ -39,122 +39,12 @@ Pushes memory pretty far:
 ```bash
 $ free -h
                total        used        free      shared  buff/cache   available
-Mem:           121Gi       114Gi       1.5Gi       188Mi       7.0Gi       7.2Gi
-Swap:           15Gi       6.9Gi       9.1Gi
+Mem:           121Gi        88Gi       2.1Gi       191Mi        32Gi        32Gi
+Swap:           15Gi       1.2Mi        15Gi
+
 ```
 
 > **WIP** — initial setup, more to follow.
 
-## "Qwen-reason" (Qwen3.6-35B-A3B-abliterated-NVFP4) /qwen-reason/docker-compose.yml
-
-```bash
-services:
-  vllm:
-    image: vllm/vllm-openai:v0.26.0  # Was: vllm/vllm-openai:latest
-    container_name: vllm
-
-    ports:
-      - "8000:8000"
-
-    environment:
-      HF_TOKEN: ${HF_TOKEN}
-
-    volumes:
-      - ~/.cache/huggingface:/root/.cache/huggingface
-      - ~/.cache/vllm:/root/.cache/vllm
-
-
-    command:
-      - sakamakismile/Huihui-Qwen3.6-35B-A3B-abliterated-NVFP4
-      - --host
-      - 0.0.0.0
-      - --port
-      - "8000"
-      - --tensor-parallel-size
-      - "1"
-      - --kv-cache-dtype
-      - fp8
-      - --attention-backend
-      - flashinfer
-      - --gpu-memory-utilization
-      - "0.55"
-      - --max-model-len
-      - "262144"
-      - --max-num-seqs
-      - "4"
-      - --max-num-batched-tokens
-      - "16384"
-      - --enable-chunked-prefill
-      - --async-scheduling
-      - --enable-prefix-caching
-      - --speculative-config
-      - '{"method":"mtp","num_speculative_tokens":3}'
-      - --load-format
-      - safetensors
-      - --reasoning-parser
-      - qwen3
-      - --tool-call-parser
-      - qwen3_xml
-      - --enable-auto-tool-choice
-
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-
-    restart: unless-stopped
-
-```
-
-## "Qwen-Coder" (Qwen2.5-Coder-14B-Instruct-NVFP4-anima) /qwen-coder/docker-compose.yml
-
-
-```bash
-services:
-  qwen-coder:
-    image: vllm/vllm-openai:v0.26.0
-    container_name: qwen-coder-nvfp4
-    restart: unless-stopped
-
-    ports:
-      - "8001:8000"
-
-    environment:
-      HF_TOKEN: ${HF_TOKEN}
-      VLLM_ALLOW_LONG_MAX_MODEL_LEN: "1"
-
-    volumes:
-      - ~/.cache/huggingface:/root/.cache/huggingface
-
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-
-    ipc: host
-
-    command:
-      - --model
-      - ilessio-aiflowlab/Qwen2.5-Coder-14B-Instruct-NVFP4-anima
-      - --served-model-name
-      - qwen-coder
-      - --trust-remote-code
-      - --enable-auto-tool-choice
-      - --tool-call-parser
-      - hermes
-      - --max-model-len
-      - "65536"
-      - --hf-overrides
-      - '{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}'
-      - --gpu-memory-utilization
-      - "0.30"
-      - --max-num-seqs
-      - "2"
-
-```
+20260804 - Removed docker compose files from README, docker compose files uploaded are current, dont want to update in 2 places
+20260803 - Updated compose files for both containers. Reason: use slightly less resources, Code: increase --max-num-seqs to 4 for better concurrent requests on QwenCode model
