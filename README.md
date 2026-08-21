@@ -1,9 +1,12 @@
-# Asus-GX10_Qwen3.6-27B_Qwen2.5-Coder-14B
-vLLM docker compose configs for Qwen Models on Asus GX10
+# ~~Asus-GX10_Qwen3.6-27B_Qwen2.5-Coder-14B~~  
 
-Running two models on **ASUS GX10** (ARM64) via Docker Compose.
+I stopped running this setup and am now running qwen3.6 35b a3b + qwen3.8 28b dense on the asus gx10. will make a new repo soon with the config  
 
-This may or may not be optimal. I was just trying to get two decently large models with a large context, running smoothly under any request.
+~~vLLM docker compose configs for Qwen Models on Asus GX10~~
+
+~~Running two models on **ASUS GX10** (ARM64) via Docker Compose.~~
+
+~~This may or may not be optimal. I was just trying to get two decently large models with a large context, running smoothly under any request.~~
 
 ## Models
 
